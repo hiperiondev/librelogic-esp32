@@ -16,6 +16,11 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef _HARDWARE_SIM_H_
+#define _HARDWARE_SIM_H_
+
+#ifdef SIM
+
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -166,7 +171,7 @@ int sim_flush() {
     return bytes_written;
 }
 
-void sim_dio_read(unsigned int n, BYTE *bit) {	//write input n to bit
+void sim_dio_read(unsigned int n, BYTE *bit) {    //write input n to bit
     unsigned int b, position;
     position = n / BYTESIZE;
     BYTE i = 0;
@@ -180,7 +185,7 @@ void sim_dio_read(unsigned int n, BYTE *bit) {	//write input n to bit
 
 void sim_dio_write(const unsigned char *buf, unsigned int n, BYTE bit)
 
-{	//write bit to n output
+{    //write bit to n output
     BYTE q;
     unsigned int position = n / BYTESIZE;
     q = buf[position];
@@ -193,7 +198,7 @@ void sim_dio_write(const unsigned char *buf, unsigned int n, BYTE bit)
     }
 }
 
-void sim_dio_bitfield(const BYTE *mask, BYTE *bits) {	//simultaneusly write output bits defined by mask and read all inputs
+void sim_dio_bitfield(const BYTE *mask, BYTE *bits) {    //simultaneusly write output bits defined by mask and read all inputs
     /* FIXME
      int i=0;
      unsigned int w = (unsigned int) (*mask);
@@ -234,3 +239,6 @@ struct hardware Sim = {
         sim_config, //hw_config
 };
 
+#endif
+
+#endif /* _HARDWARE_SIM_H_ */

@@ -31,28 +31,28 @@
  parsing:
  2. switch operator:
  valid ones:
- )	pop
+ )    pop
  only boolean:(bitwise if operand is byte)
 
- S 	set
- R 	reset
+ S     set
+ R     reset
 
  AND
  OR
  XOR
  any:
- LD 	load
- ST 	store
+ LD     load
+ ST     store
  ADD
  SUB
  MUL
  DIV
- GT	>
- GE	>=
- NE	<>
- EQ	==
- LE	<=
- LT	<
+ GT    >
+ GE    >=
+ NE    <>
+ EQ    ==
+ LE    <=
+ LT    <
  JMP
  unimplemented:
  CAL
@@ -68,18 +68,18 @@
  if '(' push stack
  4. switch operand
  valid ones:
- BOOL_DI	digital input
- R	rising edge
- F	falling edge
- DQ	digital output
- MH	memory high byte
- ML	memory low byte
- MP	pulse byte: 0000-SET-RESET-EDGE-VALUE
- B	blinker
- TQ	timer output
- TI	timer start
- W	serial output
- C	serial input
+ BOOL_DI    digital input
+ R    rising edge
+ F    falling edge
+ DQ    digital output
+ MH    memory high byte
+ ML    memory low byte
+ MP    pulse byte: 0000-SET-RESET-EDGE-VALUE
+ B    blinker
+ TQ    timer output
+ TI    timer start
+ W    serial output
+ C    serial input
  5. resolve operand byte: 0 to MAX
  6. resolve operand bit: 0 to BYTESIZE
  7. execute command if no errors
@@ -122,9 +122,7 @@ int extract_number(const char *line) { //read characters from string line
 //return number read or error 
 }
 
-int extract_arguments(const char *buf,
-BYTE *byte,
-BYTE *bit) {
+int extract_arguments(const char *buf, BYTE *byte, BYTE *bit) {
     //read first numeric chars after operand
     //store byte
     *byte = extract_number(buf);
@@ -371,7 +369,7 @@ int find_arguments(const char *buf, BYTE *operand, BYTE *byte, BYTE *bit) {
 }
 
 /***PARSE & GENERATE CODE**/
-int parse_il_line(const char *line, rung_t r) { //    line format:[label:]<operator>[<modifier>[%<operand><byte>[/<bit>]]|<label>][;comment]
+int parse_il_line(const char *line, rung_t r) { // line format:[label:]<operator>[<modifier>[%<operand><byte>[/<bit>]]|<label>][;comment]
     char tmp[MAXSTR];
     char buf[MAXSTR];
     char label_buf[MAXSTR];
@@ -430,6 +428,7 @@ int parse_il_line(const char *line, rung_t r) { //    line format:[label:]<opera
     }
     return PLC_OK;
 }
+
 /****************entry point**************************/
 plc_t parse_il_program(const char *name, const char lines[][MAXSTR], plc_t p) {
     int rv = PLC_OK;

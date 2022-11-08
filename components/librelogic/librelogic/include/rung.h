@@ -20,8 +20,8 @@
 #define _RUNG_H_
 
 #define MAXSTACK 256
-#define PLC_OK 0
-#define PLC_ERR -1
+#define PLC_OK   0
+#define PLC_ERR  -1
 
 /**
  * @brief The opcode struct
@@ -30,30 +30,30 @@
  *if op > 128 then value is negated first.
  */
 typedef struct opcode {
-        BYTE operation;
-        BYTE type;
-        BYTE depth;
-        union accdata value;
-        struct opcode *next;
+        BYTE operation;      //
+        BYTE type;           //
+        BYTE depth;          //
+        union accdata value; //
+        struct opcode *next; //
 } *opcode_t;
 
 typedef struct codeline {
-        char *line;
-        struct codeline *next;
+        char *line;            //
+        struct codeline *next; //
 } *codeline_t;
 
 /**
  * @brief The instruction list executable rung
  */
 typedef struct rung {
-        instruction_t *instructions;
-        char *id;
-        codeline_t code; ///original code for visual representation
-        unsigned int insno; ///actual no of active lines
-        struct rung *next; ///linked list of rungs
-        opcode_t stack; ///head of stack
-        struct opcode prealloc[MAXSTACK]; ///preallocated stack
-        union accdata acc;    ///accumulator
+        instruction_t *instructions;      //
+        char *id;                         //
+        codeline_t code;                  // original code for visual representation
+        unsigned int insno;               // actual no of active lines
+        struct rung *next;                // linked list of rungs
+        opcode_t stack;                   // head of stack
+        struct opcode prealloc[MAXSTACK]; // preallocated stack
+        union accdata acc;                // accumulator
 } *rung_t;
 
 /**

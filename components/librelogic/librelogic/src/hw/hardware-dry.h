@@ -16,6 +16,9 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef _HARDWARE_DRY_H_
+#define _HARDWARE_DRY_H_
+
 #include "data.h"
 #include "instruction.h"
 #include "rung.h"
@@ -26,19 +29,15 @@ int dry_config(void *conf) {
     return PLC_OK;
 }
 
-int dry_enable() /* Enable bus communication */
-{
+int dry_enable() { /* Enable bus communication */
     return PLC_OK;
 }
 
-int dry_disable() /* Disable bus communication */
-{
-
+int dry_disable() { /* Disable bus communication */
     return PLC_OK;
 }
 
 int dry_fetch() {
-    
     return 0;
 }
 
@@ -63,12 +62,14 @@ void dry_data_read(unsigned int index, uint64_t *value) {
 }
 
 void dry_data_write(unsigned int index, uint64_t value) {
-    
     return;
 }
 
-struct hardware Dry = { HW_DRY, 0, //errorcode
-        "no hardware", dry_enable, // enable
+struct hardware Dry = {
+        HW_DRY,
+        0, //errorcode
+        "no hardware",
+        dry_enable, // enable
         dry_disable, //disable
         dry_fetch, //fetch
         dry_flush, //flush
@@ -78,5 +79,6 @@ struct hardware Dry = { HW_DRY, 0, //errorcode
         dry_data_read, //data_read
         dry_data_write, //data_write
         dry_config, //hw_config
-        };
+};
 
+#endif /* _HARDWARE_DRY_H_ */

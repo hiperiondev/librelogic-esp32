@@ -16,6 +16,9 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef _HARDWARE_COMEDI_H_
+#define _HARDWARE_COMEDI_H_
+
 #include <string.h>
 
 #include "util.h"
@@ -62,7 +65,7 @@ int com_enable() /* Enable bus communication */
     printf("%s\n", filestr);
     if ((it = comedi_open(filestr)) == NULL )
         r = -1;
-    //	printf("io card enabled\n");
+    //    printf("io card enabled\n");
     return r;
 }
 
@@ -84,14 +87,14 @@ int com_flush()
 }
 
 void com_dio_read(unsigned int index, BYTE* value)
-{	//write input n to bit
+{    //write input n to bit
     unsigned int b;
     comedi_dio_read(it, Comedi_subdev_i, index, &b);
     *value = (BYTE) b;
 }
 
 void com_dio_write(const BYTE * value, unsigned int n, unsigned char bit)
-{	//write bit to n output
+{    //write bit to n output
     comedi_dio_write(it, Comedi_subdev_q, n, bit);
 }
 
@@ -108,23 +111,23 @@ void com_data_read(unsigned int index, uint64_t* value)
 {
     lsampl_t data; 
     comedi_data_read(it,
- 	    Comedi_subdev_ai,
- 	    index,
- 	    0,//unsigned int range,
- 	    AREF_GROUND,//unsigned int aref,
- 	    &data);
- 	*value = (uint64_t)data;    
+         Comedi_subdev_ai,
+         index,
+         0,//unsigned int range,
+         AREF_GROUND,//unsigned int aref,
+         &data);
+     *value = (uint64_t)data;
 }
- 	
+
 void com_data_write(unsigned int index, uint64_t value)
 {
     lsampl_t data = (lsampl_t)(value % 0x100000000); 
     comedi_data_write(it,
- 	Comedi_subdev_aq,
- 	index,
- 	0,//unsigned int range,
- 	AREF_GROUND,//unsigned int aref,
- 	data);
+     Comedi_subdev_aq,
+     index,
+     0,//unsigned int range,
+     AREF_GROUND,//unsigned int aref,
+     data);
 }
  
 struct hardware Comedi = {
@@ -141,10 +144,12 @@ struct hardware Comedi = {
     com_data_read, //data_read
     com_data_write, //data_write
     com_config, //hw_config
-}; 	
+};
 
 #else 
 
 struct hardware Comedi;
 
-#endif //COMEDI 	
+#endif //COMEDI
+
+#endif /* _HARDWARE_COMEDI_H_ */

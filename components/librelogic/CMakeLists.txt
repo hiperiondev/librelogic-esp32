@@ -3,6 +3,7 @@ file(
         SOURCES
             librelogic/src/util.c
             librelogic/src/vm/*.c
+            librelogic/src/hw/*.c
             port/*.c
             
 )
@@ -12,6 +13,7 @@ idf_component_register(
     INCLUDE_DIRS
         librelogic/include
         librelogic/src/
+        librelogic/src/hw
         port/
 )
 

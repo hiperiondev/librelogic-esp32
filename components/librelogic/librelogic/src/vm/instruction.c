@@ -102,7 +102,7 @@ int get_type(const instruction_t ins) {
                     break;
                     
                 default:
-                    if (0 <= x && x < BYTESIZE)
+                    if ((0 <= x) && (x < BYTESIZE))
                         rv = T_BOOL;
             }
         }

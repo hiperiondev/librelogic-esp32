@@ -16,6 +16,11 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef _HARDWARE_GPIOD_H_
+#define _HARDWARE_GPIOD_H_
+
+#ifdef GPIOD
+
 #include <gpiod.h>
 
 #include "data.h"
@@ -173,3 +178,7 @@ struct hardware Gpiod = {
         gpiod_data_write, //data_write
         gpiod_config, //hw_config
 };
+
+#endif
+
+#endif /* _HARDWARE_GPIOD_H_ */

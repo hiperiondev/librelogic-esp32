@@ -14,58 +14,66 @@
 
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
- NOTE: this file is not preproccessed, so no # macros (#define, #include, etc.)
  */
 
+#ifndef _PLC_IFACE_H_
+#define _PLC_IFACE_H_
+
 typedef enum {
-    HW_ESP32,
-    N_HW
+    HW_DRY,    //
+    HW_SIM,    //
+    HW_COMEDI, //
+    HW_USPACE, // TODO: update with current linux kernels
+    HW_GPIOD,  //
+    HW_IIO,    // TODO Linux industrial I/O
+    HW_USB,    // TODO FAR IN THE FUTURE
+    HW_PORT,   // New hardware
+    N_HW       //
 } HARDWARES;
 
 typedef struct config_uspace {
-        uint32_t base;
-        uint8_t write;
-        uint8_t read;
-        const char *label;
+        uint32_t base;     //
+        uint8_t write;     //
+        uint8_t read;      //
+        const char *label; //
 } *conf_uspace_t;
 
 typedef struct config_sim {
-        const char *ifname;
-        const char *ofname;
-        uint32_t in_size; //bytes
-        uint32_t out_size;
-        uint32_t adc_size;
-        uint32_t dac_size;
-        const char *label;
+        const char *ifname; //
+        const char *ofname; //
+        uint32_t in_size;   //bytes
+        uint32_t out_size;  //
+        uint32_t adc_size;  //
+        uint32_t dac_size;  //
+        const char *label;  //
 } *conf_sim_t;
 
 typedef struct config_comedi {
-        uint32_t file;
-        uint8_t sub_i;
-        uint8_t sub_q;
-        uint8_t sub_adc;
-        uint8_t sub_dac;
-        const char *label;
+        uint32_t file;     //
+        uint8_t sub_i;     //
+        uint8_t sub_q;     //
+        uint8_t sub_adc;   //
+        uint8_t sub_dac;   //
+        const char *label; //
 } *conf_comedi_t;
 
 typedef struct config_gpiod {
-        const char *chipname;
-        const uint32_t *in_lines;
-        const uint32_t *out_lines;
-        uint32_t in_size;
-        uint32_t out_size;
-        const char *label;
+        const char *chipname;      //
+        const uint32_t *in_lines;  //
+        const uint32_t *out_lines; //
+        uint32_t in_size;          //
+        uint32_t out_size;         //
+        const char *label;         //
 } *conf_gpiod_t;
 
-typedef int (*helper_f)(); //generic helper functions only return an error code
+typedef  int (*helper_f)(); //generic helper functions only return an error code
 
 typedef void (*dio_rd_f)(unsigned int, unsigned char*);
 typedef void (*dio_wr_f)(const unsigned char*, unsigned int, unsigned char);
 typedef void (*dio_bit_f)(const unsigned char*, unsigned char*);
 typedef void (*data_rd_f)(unsigned int, uint64_t*);
 typedef void (*data_wr_f)(unsigned int, uint64_t);
-typedef int (*config_f)(void*);
+typedef  int (*config_f)(void*);
 
 typedef struct hardware {
         int type;
@@ -262,3 +270,5 @@ unsigned char plc_is_updated(plc_t p);
  * @return plc handle
  */
 plc_t plc_reset_update(plc_t p);
+
+#endif /* _PLC_IFACE_H_ */

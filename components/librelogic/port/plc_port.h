@@ -24,54 +24,13 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include <stddef.h>
-#include <stdint.h>
+#ifndef _PLC_PORT_H_
+#define _PLC_PORT_H_
 
 #include "plc_iface.h"
-#include "util.h"
-#include "plc_port.h"
-#include "hardware-dry.h"
+#include "hardware-esp32.h"
 
-hardware_t plc_get_hardware(int type) {
-    switch (type) {
-        case HW_GPIOD:
-#ifdef GPIOD
-            #include "hardware-gpiod.h"
-            plc_log("Using GPIOD");
-            return &Gpiod;
-#else
-            return NULL;
-#endif
-        case HW_COMEDI:
-#ifdef COMEDI
-            #include "hardware-comedi.h"
-            return &Comedi;
-#else
-            return NULL;
-#endif
-        case HW_USPACE:
-#ifdef USPACE
-            #include "hardware-uspace.h"
-            return &Uspace;
-#else
-            return NULL;
-#endif
+#define HW_PORT_INCLUDE "hardware-esp32.h"
+#define HW_PORT_RETURN  &Esp32
 
-        case HW_SIM:
-#ifdef SIM
-            #include "hardware-sim.h"
-            return &Sim;
-#else
-            return NULL;
-#endif
-
-#ifdef HW_PORT_INCLUDE
-        case HW_PORT:
-            #include HW_PORT_INCLUDE
-            return HW_PORT_RETURN;
-#endif
-
-        default:
-            return &Dry;
-    }
-}
+#endif /* _PLC_PORT_H_ */

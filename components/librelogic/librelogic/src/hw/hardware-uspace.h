@@ -16,6 +16,11 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef _HARDWARE_USPACE_H_
+#define _HARDWARE_USPACE_H_
+
+#ifdef USPACE
+
 #include <unistd.h>
 #include <sys/io.h>
 #include <sys/types.h>
@@ -87,7 +92,7 @@ int usp_flush() {
     return 0;
 }
 
-void usp_dio_read(unsigned int n, BYTE *bit) {	//write input n to bit
+void usp_dio_read(unsigned int n, BYTE *bit) {    //write input n to bit
     unsigned int b;
     BYTE i;
     i = inb(Io_base + Rd_offs + n / BYTESIZE);
@@ -95,14 +100,14 @@ void usp_dio_read(unsigned int n, BYTE *bit) {	//write input n to bit
     *bit = (BYTE) b;
 }
 
-void usp_dio_write(const BYTE *buf, unsigned int n, unsigned char bit) {	//write bit to n output
+void usp_dio_write(const BYTE *buf, unsigned int n, unsigned char bit) {    //write bit to n output
     BYTE q;
     q = buf[n / BYTESIZE];
     q |= bit << n % BYTESIZE;
     outb(q, Io_base + Wr_offs + n / BYTESIZE);
 }
 
-void usp_dio_bitfield(const BYTE *write_mask, BYTE *bits) {	//simultaneusly write output bits defined my mask and read all inputs
+void usp_dio_bitfield(const BYTE *write_mask, BYTE *bits) {    //simultaneusly write output bits defined my mask and read all inputs
     /*FIXME
      int i;
      for (i = 0; i < Dq; i++)
@@ -133,3 +138,6 @@ struct hardware Uspace = {
         usp_config, //hw_config
 };
 
+#endif
+
+#endif /* _HARDWARE_USPACE_H_ */

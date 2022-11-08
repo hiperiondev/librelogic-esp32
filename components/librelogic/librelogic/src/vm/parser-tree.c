@@ -16,15 +16,12 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "data.h"
-
 #include "instruction.h"
 #include "parser-tree.h"
-
 #include "rung.h"
-
 #include "plclib.h"
 
-/*TODO: memory optimization: create a factory to allocate different
+/* TODO: memory optimization: create a factory to allocate different
  size per node type*/
 
 item_t mk_identifier(const BYTE operand, const BYTE byte, const BYTE bit) {

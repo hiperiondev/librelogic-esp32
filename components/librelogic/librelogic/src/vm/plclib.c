@@ -28,21 +28,19 @@
 #include "util.h"
 
 const char *LibErrors[N_IE] = {
-        "Unknown error",
-        "Invalid operator",
-        "Invalid output",
-        "Invalid numeric index",
-        "Invalid operand",
-        "File does not exist",
-        "Unreadable character"
+        "Unknown error",         //
+        "Invalid operator",      //
+        "Invalid output",        //
+        "Invalid numeric index", //
+        "Invalid operand",       //
+        "File does not exist",   //
+        "Unreadable character"   //
 };
 
 struct timeval Curtime;
 
 int plc_init(plc_t p) {
-
     gettimeofday(&Curtime, NULL);
-    
     return PLC_OK;
 }
 
@@ -297,19 +295,19 @@ int handle_set(const instruction_t op, const data_t acc, BYTE is_bit, plc_t p) {
     }
     switch (op->operand) {
 
-        case OP_CONTACT:	//set output %QX.Y
-            if (!is_bit) {	//only gets called when bit is defined
+        case OP_CONTACT:    //set output %QX.Y
+            if (!is_bit) {    //only gets called when bit is defined
                 r = PLC_ERR_BADOPERAND;
             } else {
                 r = set(p, BOOL_DQ, (op->byte) * BYTESIZE + op->bit);
             }
             break;
             
-        case OP_START:	//bits are irrelevant
+        case OP_START:    //bits are irrelevant
             r = set(p, BOOL_TIMER, op->byte);
             break;
             
-        case OP_PULSEIN:	//same here
+        case OP_PULSEIN:    //same here
             r = set(p, BOOL_COUNTER, op->byte);
             break;
             
@@ -341,18 +339,18 @@ int handle_reset(const instruction_t op, const data_t acc, BYTE is_bit, plc_t p)
         return r;
     
     switch (op->operand) {
-        case OP_CONTACT:	//set output %QX.Y
-            if (!is_bit)	//only gets called when bit is defined
+        case OP_CONTACT:    //set output %QX.Y
+            if (!is_bit)    //only gets called when bit is defined
                 r = PLC_ERR_BADOPERAND;
             else
                 r = reset(p, BOOL_DQ, (op->byte) * BYTESIZE + op->bit);
             break;
             
-        case OP_START:	//bits are irrelevant
+        case OP_START:    //bits are irrelevant
             r = reset(p, BOOL_TIMER, op->byte);
             break;
             
-        case OP_PULSEIN:	//same here
+        case OP_PULSEIN:    //same here
             r = reset(p, BOOL_COUNTER, op->byte);
             break;
             
@@ -483,15 +481,15 @@ int handle_st(const instruction_t op, const data_t acc, plc_t p) {
         return PLC_ERR_BADOPERATOR; //sanity
         
     switch (op->operand) {
-        case OP_REAL_CONTACT:	    //set output %QX.Y
+        case OP_REAL_CONTACT:        //set output %QX.Y
             r = st_out_r(op, val.r, p);
             break;
 
-        case OP_CONTACT:	    //set output %QX.Y
+        case OP_CONTACT:        //set output %QX.Y
             r = st_out(op, val.u, p);
             break;
             
-        case OP_START:	    //bits are irrelevant
+        case OP_START:        //bits are irrelevant
             r = contact(p, BOOL_TIMER, op->byte, val.u % 2);
             break;
             
@@ -780,19 +778,19 @@ int handle_ld(const instruction_t op, data_t *acc, plc_t p) {
         return PLC_ERR_BADOPERATOR; //sanity
         
     switch (op->operand) {
-        case OP_OUTPUT:	//set output %QX.Y
+        case OP_OUTPUT:    //set output %QX.Y
             r = ld_out(op, &(acc->u), p);
             break;
             
-        case OP_INPUT:	//load input %IX.Y
+        case OP_INPUT:    //load input %IX.Y
             r = ld_in(op, &(acc->u), p);
             break;
 
-        case OP_REAL_OUTPUT:	//set output %QX.Y
+        case OP_REAL_OUTPUT:    //set output %QX.Y
             r = ld_out_r(op, &(acc->r), p);
             break;
             
-        case OP_REAL_INPUT:	//load input %IX.Y
+        case OP_REAL_INPUT:    //load input %IX.Y
             r = ld_in_r(op, &(acc->r), p);
             break;
             
@@ -808,7 +806,7 @@ int handle_ld(const instruction_t op, data_t *acc, plc_t p) {
             r = ld_timer(op, &(acc->u), p);
             break;
             
-        case OP_BLINKOUT:	//bit is irrelevant
+        case OP_BLINKOUT:    //bit is irrelevant
             if (op->byte >= p->ns)
                 return PLC_ERR_BADOPERAND;
             acc->u = resolve(p, BOOL_BLINKER, op->byte);
@@ -818,12 +816,12 @@ int handle_ld(const instruction_t op, data_t *acc, plc_t p) {
             acc->u = p->command;
             break;
             
-        case OP_RISING:	//only boolean
+        case OP_RISING:    //only boolean
             r = ld_re(op, &edge, p);
             acc->u = edge;
             break;
             
-        case OP_FALLING:	//only boolean
+        case OP_FALLING:    //only boolean
             r = ld_fe(op, &edge, p);
             acc->u = edge;
             break;
@@ -842,7 +840,7 @@ int handle_ld(const instruction_t op, data_t *acc, plc_t p) {
  * @param reference to the plc
  * @return OK or error
  */
-int handle_stackable(const instruction_t op, rung_t r, plc_t p) {	//all others (stackable operations)
+int handle_stackable(const instruction_t op, rung_t r, plc_t p) {    //all others (stackable operations)
     int rv = 0;
     data_t val;
     val.u = 0;
@@ -884,7 +882,7 @@ int handle_stackable(const instruction_t op, rung_t r, plc_t p) {	//all others (
  * @return OK or error
  */
 int instruct(plc_t p, rung_t r, unsigned int *pc) {
-    BYTE type = 0;
+    int8_t type = 0;
     int error = 0;
     instruction_t op;
     BYTE increment = TRUE;
@@ -911,32 +909,32 @@ int instruct(plc_t p, rung_t r, unsigned int *pc) {
             r->acc = pop(r->acc, &(r->stack));
             break;
         case IL_NOP:
-//null operation	
+//null operation
         case IL_CAL:
 //subroutine call (unimplemented) retrieve subroutine line, set pc
         case IL_RET:
 //unimplemented yet: retrieve  previous program , counter, set pc
             break;
 //arithmetic LABEL
-        case IL_JMP:			//JMP
+        case IL_JMP:            //JMP
             error = handle_jmp(r, pc);
             increment = FALSE;
 //retrieve line number from label, set pc
             break;
 //boolean, no modifier, outputs.
-        case IL_SET:	//S
-            error = handle_set(op, r->acc,	//.u % 0x100,
+        case IL_SET:    //S
+            error = handle_set(op, r->acc,    //.u % 0x100,
                     type == T_BOOL, p);
             break;
-        case IL_RESET:	//R
-            error = handle_reset(op, r->acc,	//.u % 0x100,
+        case IL_RESET:    //R
+            error = handle_reset(op, r->acc,    //.u % 0x100,
                     type == T_BOOL, p);
             break;
-        case IL_LD:	//LD
+        case IL_LD:    //LD
             error = handle_ld(op, &(r->acc), p);
 
             break;
-        case IL_ST:	//ST: output
+        case IL_ST:    //ST: output
             //if negate, negate acc
             error = handle_st(op, r->acc, p);
 //any operand, only push
@@ -1028,7 +1026,7 @@ rung_t plc_mk_rung(const char *name, plc_t p) {
     rung_t r = (rung_t) calloc(1, sizeof(struct rung));
     
     r->id = strdup(name);
-    if (p->rungs == NULL) {		//lazy allocation
+    if (p->rungs == NULL) {        //lazy allocation
         p->rungs = (rung_t*) calloc(MAXRUNG, sizeof(rung_t));
 
     }
@@ -1078,19 +1076,19 @@ void read_inputs(plc_t p) {
     if (p == NULL || p->hw == NULL)
         return;
     
-    p->hw->fetch();		//for simulation
+    p->hw->fetch();        //for simulation
     
-    for (i = 0; i < p->ni; i++) {	//for each input byte
+    for (i = 0; i < p->ni; i++) {    //for each input byte
         p->inputs[i] = 0;
-        for (j = 0; j < BYTESIZE; j++) {	//read n bit into in
+        for (j = 0; j < BYTESIZE; j++) {    //read n bit into in
             n = i * BYTESIZE + j;
             i_bit = 0;
             p->hw->dio_read(n, &i_bit);
             p->inputs[i] |= i_bit << j;
-        }	//mask them
+        }    //mask them
     }
     
-    for (i = 0; i < p->nai; i++) {	//for each input sample
+    for (i = 0; i < p->nai; i++) {    //for each input sample
         p->hw->data_read(i, &p->real_in[i]);
     }
 }
@@ -1105,16 +1103,16 @@ void write_outputs(plc_t p) {
         return;
     
     for (i = 0; i < p->nq; i++) {
-        for (j = 0; j < BYTESIZE; j++) {	//write n bit out
+        for (j = 0; j < BYTESIZE; j++) {    //write n bit out
             n = BYTESIZE * i + j;
             q_bit = (p->outputs[i] >> j) % 2;
             p->hw->dio_write(p->outputs, n, q_bit);
         }
     }
-    for (i = 0; i < p->naq; i++) {	//for each output sample
+    for (i = 0; i < p->naq; i++) {    //for each output sample
         p->hw->data_write(i, p->real_out[i]);
     }
-    p->hw->flush();	//for simulation
+    p->hw->flush();    //for simulation
 }
 /*TODO: how is force implemented for variables and timers?*/
 plc_t plc_force(plc_t p, int op, BYTE i, char *val) {
@@ -1251,7 +1249,7 @@ BYTE dec_inp(plc_t p) { //decode input bytes
         }
         for (; j < BYTESIZE; j++) {
             unsigned int n = BYTESIZE * i + j;
-//negative mask has precedence		        
+//negative mask has precedence
             p->di[n].I = (((p->inputs[i] >> j) % 2) || p->di[n].MASK) && !p->di[n].N_MASK;
             BYTE edge = p->di[n].I ^ p->old->di[n].I;
             p->di[n].RE = p->di[n].I && edge;
@@ -1294,7 +1292,7 @@ BYTE enc_out(plc_t p) { //encode digital outputs to output bytes
             unsigned int n = BYTESIZE * i + j;
             
             out[i] |= ((p->dq[n].Q || (p->dq[n].SET && !p->dq[n].RESET) || p->dq[n].MASK) && !p->dq[n].N_MASK) << j;
-//negative mask has precedence		    
+//negative mask has precedence
         }
         p->outputs[i] = out[i];
         if (p->outputs[i] != p->old->outputs[i]) {
@@ -1394,9 +1392,9 @@ BYTE manage_timers(plc_t p) {
                 p->t[i].V++;
                 p->t[i].sn = 0;
             }
-            p->t[i].Q = (p->t[i].ONDELAY) ? 0 : 1;	//on delay
+            p->t[i].Q = (p->t[i].ONDELAY) ? 0 : 1;    //on delay
         } else if (p->t[i].START) {
-            p->t[i].Q = (p->t[i].ONDELAY) ? 1 : 0;	//on delay
+            p->t[i].Q = (p->t[i].ONDELAY) ? 1 : 0;    //on delay
         }
     }
     return t_changed;
@@ -1406,10 +1404,10 @@ BYTE manage_blinkers(plc_t p) {
     BYTE s_changed = 0;
     int i = 0;
     for (i = 0; i < p->ns; i++) {
-        if (p->s[i].S > 0) {	//if set up
+        if (p->s[i].S > 0) {    //if set up
             if (p->s[i].sn > p->s[i].S) {
                 s_changed = TRUE;
-                p->s[i].Q = (p->s[i].Q) ? 0 : 1;	//toggle
+                p->s[i].Q = (p->s[i].Q) ? 0 : 1;    //toggle
                 p->s[i].sn = 0;
             } else
                 p->s[i].sn++;
@@ -1421,7 +1419,7 @@ BYTE manage_blinkers(plc_t p) {
 plc_t plc_load_program_file(const char *path, plc_t plc) {
     FILE *f;
     int r = PLC_ERR_BADFILE;
-    char program_lines[MAXBUF][MAXSTR];	///program lines
+    char program_lines[MAXBUF][MAXSTR];    ///program lines
     char line[MAXSTR];
     int i = 0;
     
@@ -1502,7 +1500,7 @@ plc_t plc_stop(plc_t p) {
     return p;
 }
 
-plc_t plc_func(plc_t p) {	//TODO: this is a callback, supposed to be
+plc_t plc_func(plc_t p) {    //TODO: this is a callback, supposed to be
     //called every T msec
     struct timeval tp; //time for poll
     struct timeval tn; //time since beginning of last output
@@ -1530,7 +1528,7 @@ plc_t plc_func(plc_t p) {	//TODO: this is a callback, supposed to be
         read_mvars(p);
         
         gettimeofday(&tn, NULL);
-//dt = time for input + output	
+//dt = time for input + output
 //how much time passed since previous cycle?
         timeval_subtract(&dt, &tn, &Curtime);
         dt.tv_usec = dt.tv_usec % (THOUSAND * p->step);
@@ -1539,7 +1537,7 @@ plc_t plc_func(plc_t p) {	//TODO: this is a callback, supposed to be
         timeout -= run_time;
 //plc_log("I/O time approx:%d microseconds",dt.tv_usec);
         usleep(timeout);
-        gettimeofday(&tp, NULL);	//how much time did sleep wait?
+        gettimeofday(&tp, NULL);    //how much time did sleep wait?
         timeval_subtract(&dt, &tp, &tn);
         poll_time = dt.tv_usec;
 //plc_log("Sleep time approx:%d microseconds",dt.tv_usec);
@@ -1552,7 +1550,7 @@ plc_t plc_func(plc_t p) {	//TODO: this is a callback, supposed to be
         if (r >= PLC_OK) {
             r = all_tasks(p->step * THOUSAND, p);
         }
-        gettimeofday(&Curtime, NULL);	//start timing next cycle
+        gettimeofday(&Curtime, NULL);    //start timing next cycle
         timeval_subtract(&dt, &Curtime, &tp);
         run_time = dt.tv_usec;
         compute_variance((double) (run_time + poll_time + io_time));

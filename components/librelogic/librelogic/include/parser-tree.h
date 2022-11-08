@@ -23,40 +23,40 @@
  *  Node type codes
  */
 typedef enum {
-    TAG_IDENTIFIER,
-    TAG_EXPRESSION,
-    TAG_ASSIGNMENT,
-    N_TAGS
+    TAG_IDENTIFIER, //
+    TAG_EXPRESSION, //
+    TAG_ASSIGNMENT, //
+    N_TAGS          //
 } item_tag_t;
 
 typedef struct identifier {
-        BYTE operand;
-        BYTE byte;
-        BYTE bit;
+        BYTE operand;  //
+        BYTE byte;     //
+        BYTE bit;      //
 } *identifier_t;
 
 typedef struct expression {
-        struct item *a;
-        struct item *b;
-        BYTE op;
-        BYTE mod;
+        struct item *a;  //
+        struct item *b;  //
+        BYTE op;         //
+        BYTE mod;        //
 } *expression_t;
 
 typedef struct assignment {
-        struct item *left;
-        struct item *right;
-        BYTE type; //contact, down, set, reset
+        struct item *left;  //
+        struct item *right; //
+        BYTE type;          //contact, down, set, reset
 } *assignment_t;
 
 /**
  * a syntax tree node
  */
 typedef struct item {
-        item_tag_t tag;
+        item_tag_t tag;                //
         union {
-                struct identifier id;
-                struct expression exp;
-                struct assignment ass;
+                struct identifier id;  //
+                struct expression exp; //
+                struct assignment ass; //
         } v;
 } *item_t;
 
@@ -94,4 +94,4 @@ item_t mk_assignment(const item_t identifier, const item_t expression, const BYT
  */
 item_t clear_tree(item_t root);
 
-#endif //__PARSER_TREE_H_
+#endif /* __PARSER_TREE_H_ */

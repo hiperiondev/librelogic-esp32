@@ -20,45 +20,45 @@
 #define _PARSER_LD_H_
 
 /*TODO: factor these out*/
-#define RESOLVED 	-1
-#define FINAL	2
+#define RESOLVED     -1
+#define FINAL    2
 
 /**
  *possible LD line statuses
  */
 typedef enum {
-    STATUS_UNRESOLVED,
-    STATUS_RESOLVED,
-    STATUS_FINAL,
-    STATUS_ERROR,
-    N_STATUS
+    STATUS_UNRESOLVED, //
+    STATUS_RESOLVED,   //
+    STATUS_FINAL,      //
+    STATUS_ERROR,      //
+    N_STATUS           //
 } LD_STATUS;
 
 /**
  *accepted LD symbols: 0-9 for digits, and
  */
 typedef enum {
-    /// LD specific operators:
-    LD_BLANK = 10,  ///blank character
-    LD_AND = 11,         ///-
-    LD_NOT = 12,         ///!
-    LD_OR = 13,          ///|
-    LD_NODE = 14,        ///+
-    LD_COIL = 15,        ///( contact coil
-    LD_SET = 16,         ///[ set
-    LD_RESET = 17,       ///] reset,
-    LD_DOWN = 18,    	///) negate coil
-    N_LD_SYMBOLS
+    // LD specific operators:
+    LD_BLANK = 10, // blank character
+    LD_AND   = 11, // -
+    LD_NOT   = 12, // !
+    LD_OR    = 13, // |
+    LD_NODE  = 14, // +
+    LD_COIL  = 15, // ( contact coil
+    LD_SET   = 16, // [ set
+    LD_RESET = 17, // ] reset,
+    LD_DOWN  = 18, // ) negate coil
+    N_LD_SYMBOLS   //
 } LD_SYMBOLS;
 
-#define IS_COIL(x)  (x>=LD_COIL && x<=LD_DOWN) 
+#define IS_COIL(x)      (x>=LD_COIL && x<=LD_DOWN)
 #define IS_VERTICAL(x)  (x>=LD_OR && x<=LD_NODE)
 
 typedef struct ld_line {
-        char *buf;
-        BYTE status;
-        unsigned int cursor;
-        item_t stmt;
+        char *buf;           //
+        BYTE status;         //
+        unsigned int cursor; //
+        item_t stmt;         //
 } *ld_line_t;
 
 /**
@@ -140,5 +140,5 @@ int find_next_node(const ld_line_t *program, unsigned int start, unsigned int li
 
 //ld_line_t * mk_lines(char lines[MAXBUF][MAXSTR]);
 
-#endif //_PARSER_LD_H
+#endif /* _PARSER_LD_H */
 
