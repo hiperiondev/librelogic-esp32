@@ -24,9 +24,6 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef _HARDWARE_ESP32_H_
-#define _HARDWARE_ESP32_H_
-
 #include "data.h"
 #include "instruction.h"
 #include "rung.h"
@@ -53,15 +50,15 @@ int esp32_flush() {
     return 0;
 }
 
-void esp32_dio_read(unsigned int n, BYTE *bit) {
+void esp32_dio_read(unsigned int n, PLC_BYTE *bit) {
     return;
 }
 
-void esp32_dio_write(const unsigned char *buf, unsigned int n, BYTE bit) {
+void esp32_dio_write(const unsigned char *buf, unsigned int n, PLC_BYTE bit) {
     return;
 }
 
-void esp32_dio_bitfield(const BYTE *mask, BYTE *bits) {
+void esp32_dio_bitfield(const PLC_BYTE *mask, PLC_BYTE *bits) {
     return;
 }
 
@@ -74,7 +71,7 @@ void esp32_data_write(unsigned int index, uint64_t value) {
 }
 
 struct hardware Esp32 = {
-        HW_PORT,
+        HW_EXT,
         0,                  // error code
         "no hardware",
         esp32_enable,       // enable
@@ -88,5 +85,3 @@ struct hardware Esp32 = {
         esp32_data_write,   // data_write
         esp32_config,       // hw_config
         };
-
-#endif /* _HARDWARE_ESP32_H_ */

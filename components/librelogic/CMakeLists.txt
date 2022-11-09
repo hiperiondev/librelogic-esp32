@@ -1,11 +1,10 @@
 file(
     GLOB_RECURSE
         SOURCES
+            port/*.c
             librelogic/src/util.c
             librelogic/src/vm/*.c
-            librelogic/src/hw/*.c
-            port/*.c
-            
+            librelogic/src/hw/*.c            
 )
 
 idf_component_register(
@@ -16,5 +15,5 @@ idf_component_register(
         librelogic/src/hw
         port/
 )
-
-set_property(TARGET ${COMPONENT_LIB} APPEND PROPERTY ESP32)
+component_compile_options("-Wno-implicit-fallthrough")
+add_definitions( -DHW_EXTERNAL=Esp32 )
